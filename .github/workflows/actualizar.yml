@@ -1,0 +1,51 @@
+name: Copia mensual de los datos
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 6 1 * *'
+
+permissions:
+  contents: write
+
+jobs:
+  copiar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Descargar los datos de fisiossuelopelvico.com
+        run: |
+          UA="FSP-datos-abiertos-GitHub (+https://github.com/fisiossuelopelvico/clinicas-suelo-pelvico-espana)"
+          curl -fsSL -A "$UA" https://fisiossuelopelvico.com/datos/clinicas.json -o clinicas.json.nuevo
+          curl -fsSL -A "$UA" https://fisiossuelopelvico.com/llms-full.txt -o llms-full.txt.nuevo
+          jq -e '.clinicas | length > 0' clinicas.json.nuevo
+          test -s llms-full.txt.nuevo
+          mv clinicas.json.nuevo clinicas.json
+          mv llms-full.txt.nuevo llms-full.txt
+          jq -c '.clinicas[]' clinicas.json > clinicas.jsonl
+
+      - name: Anotar la fecha y los totales
+        run: |
+          {
+            echo "# Última copia"
+            echo ""
+            echo "- Copiado de la web: $(date -u '+%Y-%m-%d %H:%M') (UTC)"
+            echo "- Generado por la web: $(jq -r '.generado' clinicas.json)"
+            echo "- Clínicas: $(jq '.clinicas | length' clinicas.json)"
+            echo "- Provincias: $(jq '[.clinicas[].provincia] | unique | length' clinicas.json)"
+            echo ""
+            echo "La lista vigente está siempre en https://fisiossuelopelvico.com/datos/clinicas.json"
+          } > ACTUALIZACION.md
+
+      - name: Guardar la copia
+        run: |
+          git config user.name "Fisios Suelo Pélvico"
+          git config user.email "hola@fisiossuelopelvico.com"
+          git add clinicas.json clinicas.jsonl llms-full.txt ACTUALIZACION.md
+          if git diff --cached --quiet; then
+            echo "Sin cambios en los datos."
+          else
+            git commit -m "Copia de los datos del $(date -u '+%Y-%m-%d')"
+            git push
+          fi
