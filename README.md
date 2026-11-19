@@ -6,7 +6,7 @@ Datos abiertos del directorio gratuito **[Fisios Suelo Pélvico](https://fisioss
 - **Fuente viva:** https://fisiossuelopelvico.com/datos/clinicas.json (la lista vigente está siempre en la web).
 - **Actualización:** este repositorio copia los datos de la web **cada mes** de forma automática. Cada copia queda en el historial con su fecha, y el archivo [`ACTUALIZACION.md`](ACTUALIZACION.md) indica la fecha y el número de clínicas y provincias de la última copia.
 - **Copia citable con DOI (Zenodo):** [10.5281/zenodo.24334962](https://doi.org/10.5281/zenodo.24334962)
-- **También en:** [Hugging Face](https://huggingface.co/datasets/fisiossuelopelvico/clinicas-suelo-pelvico-espana) · [Figshare (DOI 10.6084/m9.figshare.35059678)](https://doi.org/10.6084/m9.figshare.35059678) · [Wikidata (Q142199954)](https://www.wikidata.org/wiki/Q142199954)
+- **También en:** [Hugging Face](https://huggingface.co/datasets/fisiossuelopelvico/clinicas-suelo-pelvico-espana) · [Figshare (DOI 10.6084/m9.figshare.35059678)](https://doi.org/10.6084/m9.figshare.35059678) · [Kaggle](https://www.kaggle.com/datasets/albertogmezsnchez/clinicas-de-fisioterapia-de-suelo-pelvico-espana) · [Wikidata (Q142199954)](https://www.wikidata.org/wiki/Q142199954)
 
 ## Qué es Fisios Suelo Pélvico
 
